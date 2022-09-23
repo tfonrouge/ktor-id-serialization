@@ -9,6 +9,7 @@ import io.kvision.remote.RemoteSerialization
 import io.kvision.remote.applyRoutes
 import io.kvision.remote.getServiceManager
 import io.kvision.remote.kvisionInit
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import org.bson.types.ObjectId
@@ -20,6 +21,7 @@ import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.id.serialization.IdKotlinXSerializationModule
 import org.litote.kmongo.reactivestreams.KMongo
 
+@OptIn(ExperimentalSerializationApi::class)
 fun Application.main() {
     val service by inject<PingService>()
     install(Compression)
@@ -40,21 +42,21 @@ fun Application.main() {
         factoryOf(::PingService)
         singleOf(::MongoDbCollection)
     }
-    RemoteSerialization.customConfiguration = Json {
-        serializersModule = SerializersModule {
-            IdKotlinXSerializationModule
-        }
-    }
+//    RemoteSerialization.customConfiguration = Json {
+//        serializersModule = SerializersModule {
+//            IdKotlinXSerializationModule
+//        }
+//    }
     kvisionInit(
-        json = Json {
-            serializersModule = IdKotlinXSerializationModule
-            encodeDefaults = true
-            isLenient = true
-            allowSpecialFloatingPointValues = true
-            allowStructuredMapKeys = true
-            prettyPrint = false
-            useArrayPolymorphism = true
-        },
+//        json = Json {
+//            serializersModule = IdKotlinXSerializationModule
+//            encodeDefaults = true
+//            isLenient = true
+//            allowSpecialFloatingPointValues = true
+//            allowStructuredMapKeys = true
+//            prettyPrint = false
+//            useArrayPolymorphism = true
+//        },
         module
     )
 }

@@ -1,8 +1,11 @@
 package com.example.project
 
+import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
@@ -32,11 +35,13 @@ class IdSerializer<T : Id<*>> : KSerializer<T> {
         return Id<Any>(s) as T
     }
 
+    @OptIn(InternalSerializationApi::class)
     override fun serialize(encoder: Encoder, value: T) {
         console.warn("Id SERIALIZE, encoder", encoder, "value", value)
-        val json = """{"_id":"${value._id}"}"""
-        encoder.encodeString(JSON.stringify(json))
-        console.warn("ID SERIALIZED...", json)
+//        val pair: Map<String, String> = mapOf("id" to value._id)
+//        encoder.encodeSerializableValue(MapSerializer(String.serializer(), String.serializer()), value = pair)
+        encoder.encodeString(value._id)
+        console.warn("ID SERIALIZED...")
     }
 }
 
@@ -61,7 +66,7 @@ class ObjectIdSerializer : KSerializer<ObjectId> {
 @SerialName("objectId")
 class ObjectId(
     var id: String
-)  {
+) {
     override fun toString(): String {
         return id
     }

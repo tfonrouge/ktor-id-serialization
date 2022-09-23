@@ -71,9 +71,9 @@ class App : Application() {
                 )
             )
         }
-        AppScope.launch {
-            Toast.success(Model.ping("Hello world from client!"))
-        }
+//        AppScope.launch {
+//            Toast.success(Model.ping("Hello world from client!"))
+//        }
         AppScope.launch {
             val list = Model.appUserList()
             console.warn("list", list)

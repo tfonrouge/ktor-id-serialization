@@ -7,7 +7,9 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.bson.types.ObjectId
 import org.koin.ktor.ext.inject
+import org.litote.kmongo.eq
 import org.litote.kmongo.id.StringId
+import org.litote.kmongo.id.WrappedObjectId
 import org.litote.kmongo.id.serialization.IdKotlinXSerializationModule
 import org.litote.kmongo.id.toId
 
@@ -29,7 +31,7 @@ actual class PingService(private val call: ApplicationCall) : IPingService {
         val id = one?._id
         println(one)
         val result = coll.collection.find(
-//            AppUser::_id eq WrappedObjectId("628c4ef4aa06075e65f94afb")
+            AppUser::_id eq WrappedObjectId("628c4ef4aa06075e65f94afb")
 //            AppUser::_id eq id
         ).toList()
         val json = Json { serializersModule = IdKotlinXSerializationModule }
